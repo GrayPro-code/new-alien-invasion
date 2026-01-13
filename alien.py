@@ -1,20 +1,44 @@
 import pygame
+from pygame.sprite import Sprite
 
 
-class Alien:
-    """Класс для управления кораблем."""
+class Alien(Sprite):
+    """Класс представляющий одного пришельца"""
 
     def __init__(self, ai_game):
-        """Инициализирует пришельца и задает его начальную позицию."""
+        """Инициализирует пришельца и задает его первоначальную позицию"""
+        super().__init__()
         self.screen = ai_game.screen
-        self.screen_rect = ai_game.screen.get_rect()
+        self.settings = ai_game.settings
 
-        # Загружает изображение пришельца и получает треугольник.
+        # Загрузка изображения пришельца и назначение атрибута rect
         self.image = pygame.image.load("images/alien.bmp")
-        self.rect = self.image.get_rect()
-        # Каждый новый пришелец появляется у нижнего края экрана.
-        self.rect.topleft = self.screen_rect.topleft = (560, 40)
+        self.rect = self.image.get_rect()      
+        
+        # Каждый новый пришелец появляеться в левом верхнем углу экрана
+        self.rect.x = self.rect.width
+        self.rect.y = self.rect.height
 
-    def blitme(self):
-        """Рисует пришельца в текущей позиции."""
-        self.screen.blit(self.image, self.rect)
+        # Сохранение точной горизонтальной позиции пришельца
+        self.x = float(self.rect.x)
+
+    def check_edges(self):
+        """возвращает True если пришелец находиться у края экрана"""
+        screen_rect = self.screen.get_rect()
+        if self.rect.right >= screen_rect.right or self.rect.left <= 0:
+            return True
+    
+    def update(self):
+        """Перемещает пришельца влево и вправо"""
+        self.x += (self.settings.alien_speed * self.settings.fleet_direction)
+        self.rect.x = self.x
+
+
+
+
+
+
+
+
+
+

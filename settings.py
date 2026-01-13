@@ -12,6 +12,11 @@ class Settings:
 		self.bg_color = (135, 206, 250)
 		# Настройки корабля
 		self.ship_speed = 0.7
+		# Настройки пришельцев
+		self.alien_speed = 0.1
+		self.fleet_drop_speed = 10
+		# fleet_direction = 1 обозначает движение вправо; а - 1 - влево
+		self.fleet_direction = 1
 		# параметры снаряда
 		self.bullet_speed = 0.5
 		self.bullet_width = 3
