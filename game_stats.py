@@ -7,9 +7,26 @@ class GameStats():
 		self.reset_stats()
 		# игра запускаеться в неактивном состоянии
 		self.game_active = False
+		# Рекорд не должен сбрасываться.
+		self.high_score = self.read_high_score()
+
 
 
 	def reset_stats(self):
 		"""ининциализирует статистику изменяющуюся в ходе игры"""
 		self.ships_left = self.settings.ship_limit
 		self.score = 0
+		self.level = 1
+
+	def write_high_score(self):
+		""" Записывает в файл текущий рекордный счет"""
+		with open("high_score.txt", "w") as f:
+			f.write(str(self.high_score))
+
+	def read_high_score(self):
+		""" Загружает из файла рекорд игры"""
+		with open("high_score.txt") as f:
+			return int(f.read())
+
+
+
