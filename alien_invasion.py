@@ -1,6 +1,7 @@
 import sys
 from time import sleep
 import pygame
+from game_sounds import Sounds
 from settings import Settings
 from game_stats import GameStats
 from scoreboard import Scoreboard
@@ -16,8 +17,8 @@ class AlienInvasion:
     def __init__(self):
         """инициализирует игру и создает игровые ресурсы """
         pygame.init()
+        self.sounds = Sounds()
         self.settings = Settings()
-
         self.screen = pygame.display.set_mode((1200, 700))
         self.settings.screen_width = self.screen.get_rect().width
         self.settings.screen_height = self.screen.get_rect().height
@@ -31,6 +32,8 @@ class AlienInvasion:
         self._create_fleet()
         # Создание кнопки Play
         self.play_button = Button(self, "Play")
+        # Создание музыки на заднем фоне.
+        self.sounds.bg_sound()
         
     def run_game(self):
         """запуск основного цикла игры."""
@@ -100,6 +103,7 @@ class AlienInvasion:
         if len(self.bullets) < self.settings.bullets_allowed:
             new_bullet = Bullet(self)
             self.bullets.add(new_bullet)
+            self.sounds.bullet_sound()
 
     def _update_bullets(self):
         """Обновляет позиции снарядов и уничтожает старые снаряды"""
@@ -122,6 +126,7 @@ class AlienInvasion:
                 self.stats.score += self.settings.alien_points * len(aliens)
             self.sb.prep_score()
             self.sb.check_high_score()
+            self.sounds.alien_sound()
         if not self.aliens:
             # уничтожение существующих снарядов повышение скорости и создание нового флота.
             self.bullets.empty()
