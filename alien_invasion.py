@@ -1,3 +1,4 @@
+
 import sys
 from time import sleep
 import pygame
@@ -9,6 +10,8 @@ from button import Button
 from ship import Ship
 from bullet import Bullet
 from alien import Alien
+from explosion import Explosion
+from random import randint
 
 
 class AlienInvasion:
@@ -17,9 +20,10 @@ class AlienInvasion:
     def __init__(self):
         """инициализирует игру и создает игровые ресурсы """
         pygame.init()
+        self.clock = pygame.time.Clock()
         self.sounds = Sounds()
         self.settings = Settings()
-        self.screen = pygame.display.set_mode((1200, 700))
+        self.screen = pygame.display.set_mode((self.settings.screen_width, self.settings.screen_height))
         self.settings.screen_width = self.screen.get_rect().width
         self.settings.screen_height = self.screen.get_rect().height
         pygame.display.set_caption("Alien Invasion Armagedon")
@@ -29,11 +33,14 @@ class AlienInvasion:
         self.ship = Ship(self)
         self.bullets = pygame.sprite.Group()
         self.aliens = pygame.sprite.Group()
+        self.all_sprites = pygame.sprite.Group()
         self._create_fleet()
         # Создание кнопки Play
         self.play_button = Button(self, "Play")
         # Создание музыки на заднем фоне.
         self.sounds.bg_sound()
+
+        
         
     def run_game(self):
         """запуск основного цикла игры."""
@@ -124,6 +131,21 @@ class AlienInvasion:
         if collisions:
             for aliens in collisions.values():
                 self.stats.score += self.settings.alien_points * len(aliens)
+
+
+            # получаем координаты сбитых пришельцев
+            for alien in aliens:
+                
+                if 5 == randint(0, 150) :
+                    self.explosion = Explosion(alien.rect.x, alien.rect.y)
+                    self.all_sprites.add(self.explosion)
+                    self.settings.alien_speed_factor /= self.settings.speedup_scale
+                    self.settings.ship_speed_factor  /= self.settings.speedup_scale
+                    self.settings.bullet_speed_factor /= self.settings.speedup_scale
+
+
+
+
             self.sb.prep_score()
             self.sb.check_high_score()
             self.sounds.alien_sound()
@@ -224,12 +246,17 @@ class AlienInvasion:
         for bullet in self.bullets.sprites():
             bullet.draw_bullet()
         self.aliens.draw(self.screen)
+        self.all_sprites.update()
+        self.all_sprites.draw(self.screen)
         #Вывод информации о счете.
         self.sb.show_score()
         # Кнопка  Play Отображаеться в том случае если игра не активна.
         if not self.stats.game_active:
             self.play_button.draw_button()
         pygame.display.flip()
+        
+        # self.clock.tick(1000)
+        
 
 
 if __name__ == "__main__":

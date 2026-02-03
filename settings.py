@@ -8,7 +8,7 @@ class Settings:
 
 		# Параметры экрана
 		self.screen_width = 1200
-		self.screen_height = 800
+		self.screen_height = 700
 
 		# Назначение цвета фона.
 		self.bg_image = pygame.image.load("images/bg.jpg")
@@ -34,7 +34,7 @@ class Settings:
 		self.bullet_width = 3
 		self.bullet_height = 15
 		self.bullet_color = (255, 102, 0)
-		self.bullets_allowed = 1
+		self.bullets_allowed = 3
 
 	def initialize_dynamic_settings(self):
 		"""Инициализирует настройки изменяющиеся в ходе игры"""
