@@ -26,7 +26,7 @@ class Sounds():
 		""" Воспроизводит звук выстрела корабля."""
 		try:
 			bull_sound = pygame.mixer.Sound("sounds/bullet_sound.wav")
-			bull_sound.set_volume(0.5)
+			bull_sound.set_volume(0.4)
 			bull_sound.play()
 		except pygame.error as e:
 			print(f"Не удалось загрузить звук: {e}")
@@ -41,7 +41,32 @@ class Sounds():
 			print(f"Не удалось загрузить звук: {e}")
 			sys.exit(1)
 
+	def armageddon_sound(self):
+		""" Воспроизводит звук взрыва armageddon."""
+		try:
+			ali_sound = pygame.mixer.Sound("sounds/armageddon_sound.wav")
+			ali_sound.play()
+		except pygame.error as e:
+			print(f"Не удалось загрузить звук: {e}")
+			sys.exit(1)
 
 
+	def triple_shot_sound(self):
+		""" Воспроизводит звук получения 'triple shot'."""
+		try:
+			ali_sound = pygame.mixer.Sound("sounds/triple_shot_sound.wav")
+			ali_sound.play()
+		except pygame.error as e:
+			print(f"Не удалось загрузить звук: {e}")
+			sys.exit(1)
 
+
+	def freeze_sound(self):
+		""" Воспроизводит звук замедления пришельцев."""
+		try:
+			ali_sound = pygame.mixer.Sound("sounds/freeze_sound.wav")
+			ali_sound.play()
+		except pygame.error as e:
+			print(f"Не удалось загрузить звук: {e}")
+			sys.exit(1)
 

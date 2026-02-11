@@ -10,7 +10,7 @@ from button import Button
 from ship import Ship
 from bullet import Bullet
 from alien import Alien
-from explosion import Explosion
+from animation import Animation
 from random import randint
 
 
@@ -39,9 +39,8 @@ class AlienInvasion:
         self.play_button = Button(self, "Play")
         # Создание музыки на заднем фоне.
         self.sounds.bg_sound()
+        
 
-        
-        
     def run_game(self):
         """запуск основного цикла игры."""
         while True:
@@ -129,19 +128,53 @@ class AlienInvasion:
         # удаление снарядов и пришельцев участвующих в коллизиях
         collisions = pygame.sprite.groupcollide(self.bullets, self.aliens, True, True)
         if collisions:
+            # Генерирует случайное число
+            self.random_integer = randint(0, 50) 
+
             for aliens in collisions.values():
                 self.stats.score += self.settings.alien_points * len(aliens)
 
 
             # получаем координаты сбитых пришельцев
             for alien in aliens:
+                self.explosion = Animation(alien.rect.x, alien.rect.y, name_dir="explosion", name_files="explosion")
+                self.all_sprites.add(self.explosion)
+
+
+            if 5 == self.random_integer and self.settings.bullets_allowed != 3:
+                self.boom = Animation(600, 350, name_dir="boom", name_files="boom")
+                self.all_sprites.add(self.boom)
+                self.sounds.triple_shot_sound()
+                self.settings.bullets_allowed = 3
+
+               
+
+            elif 3 == self.random_integer:
+                self.freeze = Animation(600, 350, name_dir="freeze", name_files="freeze")
+                self.all_sprites.add(self.freeze)
+                self.sounds.freeze_sound()
+                self.settings.alien_speed_factor /= self.settings.speedup_scale
+                self.settings.ship_speed_factor  /= self.settings.speedup_scale
+                self.settings.bullet_speed_factor /= self.settings.speedup_scale
                 
-                if 5 == randint(0, 150) :
-                    self.explosion = Explosion(alien.rect.x, alien.rect.y)
-                    self.all_sprites.add(self.explosion)
-                    self.settings.alien_speed_factor /= self.settings.speedup_scale
-                    self.settings.ship_speed_factor  /= self.settings.speedup_scale
-                    self.settings.bullet_speed_factor /= self.settings.speedup_scale
+
+
+                # ARMAGEDDON
+            elif 2 == self.random_integer:
+                self.armageddon = Animation(600, 250, name_dir="armageddon", name_files="armageddon")
+                self.all_sprites.add(self.armageddon)
+                self.sounds.armageddon_sound()
+                self.stats.score += self.settings.alien_points * len(self.aliens)
+                self.aliens.empty()
+                
+
+
+
+
+
+                    #self.settings.alien_speed_factor /= self.settings.speedup_scale
+                    #self.settings.ship_speed_factor  /= self.settings.speedup_scale
+                    #self.settings.bullet_speed_factor /= self.settings.speedup_scale
 
 
 
@@ -255,7 +288,7 @@ class AlienInvasion:
             self.play_button.draw_button()
         pygame.display.flip()
         
-        # self.clock.tick(1000)
+        self.clock.tick(3000)
         
 
 
