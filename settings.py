@@ -14,7 +14,7 @@ class Settings:
 		self.bg_image = pygame.image.load("images/bg.jpg")
 
 		# Цвет фона счета.
-		self.bg_color = (135, 0, 0, 40)    #(135, 206, 250)
+		self.bg_color = (112, 146, 190, 40)    #(135, 206, 250)
 
 		# Настройки корабля
 		self.ship_speed = 0.7

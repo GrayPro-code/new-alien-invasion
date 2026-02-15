@@ -20,7 +20,7 @@ class AlienInvasion:
     def __init__(self):
         """инициализирует игру и создает игровые ресурсы """
         pygame.init()
-        self.clock = pygame.time.Clock()
+        # self.clock = pygame.time.Clock()
         self.sounds = Sounds()
         self.settings = Settings()
         self.screen = pygame.display.set_mode((self.settings.screen_width, self.settings.screen_height))
@@ -39,6 +39,19 @@ class AlienInvasion:
         self.play_button = Button(self, "Play")
         # Создание музыки на заднем фоне.
         self.sounds.bg_sound()
+        self.switch = True
+
+
+
+        # добавляю rocket
+        self.rocket_image = pygame.image.load("images/rocket.png")
+        self.rocket_rect = self.rocket_image.get_rect(center=(50, 650))
+        # добавляем blaster
+        self.blaster_image = pygame.image.load("images/blaster.png")
+        self.blaster_rect = self.blaster_image.get_rect(center=(150, 650))
+
+
+
         
 
     def run_game(self):
@@ -50,6 +63,7 @@ class AlienInvasion:
                 self._update_bullets()
                 self._update_aliens()
             self._update_screen()
+
 
     def _check_events(self):
         # отслеживание событий клавиатуры и мыши.
@@ -94,8 +108,27 @@ class AlienInvasion:
         elif event.key == pygame.K_q:
             self.stats.write_high_score()
             sys.exit()
-        elif event.key ==pygame.K_SPACE:
+        elif event.key == pygame.K_SPACE:
             self._fire_bullet()
+
+
+        elif event.key == pygame.K_1:
+            self.switch = True
+            self.settings.bullet_height = 15
+            self.settings.bullet_color = (255, 102, 0)
+
+
+
+        elif event.key == pygame.K_2:
+            self.switch = False
+            self.settings.bullet_height = 45
+            self.settings.bullet_color = (0, 180, 232)
+            self.settings.bullets_allowed = 1
+
+
+
+
+
 
     def _check_keyup_events(self, event):
         """Реагирует на отпускание клавиш"""
@@ -126,7 +159,7 @@ class AlienInvasion:
     def _check_bullet_alien_collisions(self):
         """обработка коллизий снарядов с пришельцами"""
         # удаление снарядов и пришельцев участвующих в коллизиях
-        collisions = pygame.sprite.groupcollide(self.bullets, self.aliens, True, True)
+        collisions = pygame.sprite.groupcollide(self.bullets, self.aliens, self.switch, True)
         if collisions:
             # Генерирует случайное число
             self.random_integer = randint(0, 50) 
@@ -141,7 +174,7 @@ class AlienInvasion:
                 self.all_sprites.add(self.explosion)
 
 
-            if 5 == self.random_integer and self.settings.bullets_allowed != 3:
+            if 5 == self.random_integer and self.settings.bullets_allowed != 3 and self.switch == True:
                 self.boom = Animation(600, 350, name_dir="boom", name_files="boom")
                 self.all_sprites.add(self.boom)
                 self.sounds.triple_shot_sound()
@@ -167,17 +200,6 @@ class AlienInvasion:
                 self.stats.score += self.settings.alien_points * len(self.aliens)
                 self.aliens.empty()
                 
-
-
-
-
-
-                    #self.settings.alien_speed_factor /= self.settings.speedup_scale
-                    #self.settings.ship_speed_factor  /= self.settings.speedup_scale
-                    #self.settings.bullet_speed_factor /= self.settings.speedup_scale
-
-
-
 
             self.sb.prep_score()
             self.sb.check_high_score()
@@ -273,8 +295,11 @@ class AlienInvasion:
 
     def _update_screen(self):
         """Обновляет изображение на экране и отображает новый экран."""
-        # self.screen.fill(self.settings.bg_color)  
-        self.screen.blit(self.settings.bg_image, (0, 0))                                        
+        self.screen.blit(self.settings.bg_image, (0, 0))   
+
+        self.screen.blit(self.rocket_image, self.rocket_rect)         # !!!!!!!!!!!!!
+        self.screen.blit(self.blaster_image, self.blaster_rect)
+
         self.ship.blitme()
         for bullet in self.bullets.sprites():
             bullet.draw_bullet()
@@ -288,7 +313,7 @@ class AlienInvasion:
             self.play_button.draw_button()
         pygame.display.flip()
         
-        self.clock.tick(3000)
+        # self.clock.tick(3000)
         
 
 
