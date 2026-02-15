@@ -96,11 +96,11 @@ class AlienInvasion:
             # Создание нового флота и размещение корабля в центре.
             self._create_fleet()
             self.ship.center_ship()
-            # Указатель мыши скрываеться.
+            # Указатель мыши скрывается.
             pygame.mouse.set_visible(False)
 
     def _check_keydown_events(self, event):
-        """ Реагтрует на нажатие клавиш"""
+        """ Реагирует на нажатие клавиш"""
         if event.key == pygame.K_RIGHT:
             self.ship.moving_right = True
         elif event.key == pygame.K_LEFT:
@@ -124,6 +124,7 @@ class AlienInvasion:
             self.settings.bullet_height = 45
             self.settings.bullet_color = (0, 180, 232)
             self.settings.bullets_allowed = 1
+
 
 
 
