@@ -1,3 +1,4 @@
+import sys
 import pygame
 
 
@@ -51,10 +52,10 @@ class Sounds():
 			sys.exit(1)
 
 
-	def triple_shot_sound(self):
+	def weapon_change(self):
 		""" Воспроизводит звук получения 'triple shot'."""
 		try:
-			ali_sound = pygame.mixer.Sound("sounds/triple_shot_sound.wav")
+			ali_sound = pygame.mixer.Sound("sounds/weapon_change.wav")
 			ali_sound.play()
 		except pygame.error as e:
 			print(f"Не удалось загрузить звук: {e}")

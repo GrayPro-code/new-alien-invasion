@@ -15,7 +15,6 @@ class GameStats():
 		self.ships_left = self.settings.ship_limit
 		self.score = 0
 		self.level = 1
-		self.settings.bullets_allowed = 1
 
 	def write_high_score(self):
 		""" Записывает в файл текущий рекордный счет"""

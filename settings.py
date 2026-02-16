@@ -34,7 +34,7 @@ class Settings:
 		self.bullet_width = 3
 		self.bullet_height = 15
 		self.bullet_color = (255, 102, 0) # (0, 0, 255) 
-		self.bullets_allowed = 1
+		self.bullets_allowed = 3
 
 	def initialize_dynamic_settings(self):
 		"""Инициализирует настройки изменяющиеся в ходе игры"""

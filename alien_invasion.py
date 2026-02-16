@@ -81,8 +81,8 @@ class AlienInvasion:
 
     def _check_play_button(self, mouse_pos):
         """Запускает новую игру при нажатии кнопки Play."""
-        button_clickrd = self.play_button.rect.collidepoint(mouse_pos)
-        if button_clickrd and not self.stats.game_active:
+        button_clicked = self.play_button.rect.collidepoint(mouse_pos)
+        if button_clicked and not self.stats.game_active:
             # Сброс игровых настроек.
             self.settings.initialize_dynamic_settings()
             self.stats.reset_stats()
@@ -113,13 +113,15 @@ class AlienInvasion:
 
 
         elif event.key == pygame.K_1:
+            self.sounds.weapon_change()
             self.switch = True
             self.settings.bullet_height = 15
             self.settings.bullet_color = (255, 102, 0)
-
+            self.settings.bullets_allowed = 3
 
 
         elif event.key == pygame.K_2:
+            self.sounds.weapon_change()
             self.switch = False
             self.settings.bullet_height = 45
             self.settings.bullet_color = (0, 180, 232)
@@ -175,15 +177,15 @@ class AlienInvasion:
                 self.all_sprites.add(self.explosion)
 
 
-            if 5 == self.random_integer and self.settings.bullets_allowed != 3 and self.switch == True:
-                self.boom = Animation(600, 350, name_dir="boom", name_files="boom")
-                self.all_sprites.add(self.boom)
-                self.sounds.triple_shot_sound()
-                self.settings.bullets_allowed = 3
+            #if 5 == self.random_integer and self.settings.bullets_allowed != 3 and self.switch == True:
+            #    self.boom = Animation(600, 350, name_dir="boom", name_files="boom")
+            #    self.all_sprites.add(self.boom)
+            #    self.sounds.triple_shot_sound()
+            #    self.settings.bullets_allowed = 3
 
                
 
-            elif 3 == self.random_integer:
+            if 3 == self.random_integer:
                 self.freeze = Animation(600, 350, name_dir="freeze", name_files="freeze")
                 self.all_sprites.add(self.freeze)
                 self.sounds.freeze_sound()
