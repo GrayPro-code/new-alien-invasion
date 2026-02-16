@@ -26,7 +26,7 @@ class AlienInvasion:
         self.screen = pygame.display.set_mode((self.settings.screen_width, self.settings.screen_height))
         self.settings.screen_width = self.screen.get_rect().width
         self.settings.screen_height = self.screen.get_rect().height
-        pygame.display.set_caption("Alien Invasion Armagedon")
+        pygame.display.set_caption("Alien Invasion Armageddon")
         # создание экземпляря для хранения игровой статистики и хранения результатов.
         self.stats = GameStats(self)
         self.sb = Scoreboard(self)
@@ -215,7 +215,7 @@ class AlienInvasion:
             self.sb.prep_level()
 
     def _update_aliens(self):
-        """Обновляет позиции всех пришельцев во  флоте"""
+        """Обновляет позиции всех пришельцев во флоте"""
         self._check_fleet_edges()
         self.aliens.update()
         # проверка коллизий пришелец - корабль
@@ -226,7 +226,7 @@ class AlienInvasion:
 
     def _ship_hit(self):
         """обрабатывает столкновения корабля с пришельцем"""
-        # уменшение ships left
+        # уменьшение ships left
         if self.stats.ships_left > 0:
             # Уменьшение ships_left и обновление панели счета.
             self.stats.ships_left -= 1
@@ -244,7 +244,7 @@ class AlienInvasion:
             pygame.mouse.set_visible(True)
 
     def _check_aliens_bottom(self):
-        """Проверяет добрались ли пришельцы до нижнего края экрана"""
+        """Проверяет, добрались ли пришельцы до нижнего края экрана"""
         screen_rect = self.screen.get_rect()
         for alien in self.aliens.sprites():
             if alien.rect.bottom >= screen_rect.bottom:
@@ -255,7 +255,7 @@ class AlienInvasion:
     def _create_fleet(self):
         """Создает флот пришельцев"""
         # Создание пришельца и вычисление количества пришельцев в ряду
-        # Интервал между соседними пришелбцами равен ширине пришельца
+        # Интервал между соседними пришельцами равен ширине пришельца
         alien = Alien(self)
         alien_width, alien_height = alien.rect.size
         avalible_space_x = self.settings.screen_width - (2 * alien_width)
@@ -309,7 +309,7 @@ class AlienInvasion:
         self.all_sprites.draw(self.screen)
         #Вывод информации о счете.
         self.sb.show_score()
-        # Кнопка  Play Отображаеться в том случае если игра не активна.
+        # Кнопка Play Отображаеться в том случае если игра не активна.
         if not self.stats.game_active:
             self.play_button.draw_button()
         pygame.display.flip()

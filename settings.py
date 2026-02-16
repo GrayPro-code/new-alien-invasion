@@ -47,7 +47,7 @@ class Settings:
 		self.alien_points = 16
 
 	def increase_speed(self):
-		""" Увелчивает настройки скорости."""
+		""" Увеличивает настройки скорости."""
 		self.ship_speed_factor *= self.speedup_scale
 		self.bullet_speed_factor *= self.speedup_scale
 		self.alien_speed_factor *= self.speedup_scale
