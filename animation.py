@@ -6,7 +6,7 @@ from pygame.sprite import Sprite
 
 
 
-# === Класс анимации  ===
+# === Класс анимации ===
 class Animation(Sprite):
     def __init__(self, x, y, name_dir, name_files):
         super().__init__()

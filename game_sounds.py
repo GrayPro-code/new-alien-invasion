@@ -2,7 +2,7 @@ import sys
 import pygame
 
 
-class Sounds():
+class Sounds:
 	""" Класс управления звуками."""
 
 	def __init__(self):
@@ -53,7 +53,7 @@ class Sounds():
 
 
 	def weapon_change(self):
-		""" Воспроизводит звук получения 'triple shot'."""
+		""" Воспроизводит звук смены оружия."""
 		try:
 			ali_sound = pygame.mixer.Sound("sounds/weapon_change.wav")
 			ali_sound.play()

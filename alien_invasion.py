@@ -1,4 +1,3 @@
-
 import sys
 from time import sleep
 import pygame
@@ -27,7 +26,7 @@ class AlienInvasion:
         self.settings.screen_width = self.screen.get_rect().width
         self.settings.screen_height = self.screen.get_rect().height
         pygame.display.set_caption("Alien Invasion Armageddon")
-        # создание экземпляря для хранения игровой статистики и хранения результатов.
+        # создание экземпляра для хранения игровой статистики и хранения результатов.
         self.stats = GameStats(self)
         self.sb = Scoreboard(self)
         self.ship = Ship(self)
@@ -165,7 +164,7 @@ class AlienInvasion:
         collisions = pygame.sprite.groupcollide(self.bullets, self.aliens, self.switch, True)
         if collisions:
             # Генерирует случайное число
-            self.random_integer = randint(0, 50) 
+            self.random_integer = randint(0, 100)
 
             for aliens in collisions.values():
                 self.stats.score += self.settings.alien_points * len(aliens)
@@ -260,13 +259,13 @@ class AlienInvasion:
         # Интервал между соседними пришельцами равен ширине пришельца
         alien = Alien(self)
         alien_width, alien_height = alien.rect.size
-        avalible_space_x = self.settings.screen_width - (2 * alien_width)
-        number_aliens_x = avalible_space_x // (2 * alien_width)
+        available_space_x = self.settings.screen_width - (2 * alien_width)
+        number_aliens_x = available_space_x // (2 * alien_width)
 
         """Определяет количество рядов помещающихся на экране"""
         ship_height = self.ship.rect.height
-        avalible_space_y = (self.settings.screen_height - (3 * alien_height) - ship_height)
-        number_rows = avalible_space_y // (2 * alien_height)
+        available_space_y = (self.settings.screen_height - (3 * alien_height) - ship_height)
+        number_rows = available_space_y // (2 * alien_height)
 
         # Создание флота вторжения
         for row_number in range(number_rows):
@@ -298,11 +297,9 @@ class AlienInvasion:
 
     def _update_screen(self):
         """Обновляет изображение на экране и отображает новый экран."""
-        self.screen.blit(self.settings.bg_image, (0, 0))   
-
-        self.screen.blit(self.rocket_image, self.rocket_rect)         # !!!!!!!!!!!!!
+        self.screen.blit(self.settings.bg_image, (0, 0))
+        self.screen.blit(self.rocket_image, self.rocket_rect)
         self.screen.blit(self.blaster_image, self.blaster_rect)
-
         self.ship.blitme()
         for bullet in self.bullets.sprites():
             bullet.draw_bullet()
@@ -311,7 +308,7 @@ class AlienInvasion:
         self.all_sprites.draw(self.screen)
         #Вывод информации о счете.
         self.sb.show_score()
-        # Кнопка Play Отображаеться в том случае если игра не активна.
+        # Кнопка Play Отображается в том случае если игра не активна.
         if not self.stats.game_active:
             self.play_button.draw_button()
         pygame.display.flip()
