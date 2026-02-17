@@ -4,7 +4,7 @@ class Settings:
 	"""Класс для хранения всех настроек игры Alien Invasion."""
 
 	def __init__(self):
-		"""Инициализирует статические  настройки игры."""
+		"""Инициализирует статические настройки игры."""
 
 		# Параметры экрана
 		self.screen_width = 1200
@@ -24,7 +24,7 @@ class Settings:
 		self.alien_speed = 0.1
 		self.fleet_drop_speed = 50
 		# Темп ускорения игры.
-		self.speedup_scale = 1.2
+		self.speedup_scale = 1.1
 		# Темп роста стоимости пришельца
 		self.score_scale= 1.3
 		self.initialize_dynamic_settings()
@@ -35,6 +35,22 @@ class Settings:
 		self.bullet_height = 15
 		self.bullet_color = (255, 102, 0) # (0, 0, 255) 
 		self.bullets_allowed = 3
+
+		# Расположение звуков игры
+		self.bg_music = "sounds/bg_sound.mp3"
+		self.bullet_sound = "sounds/bullet_sound.wav"
+		self.alien_sound = "sounds/alien_sound.wav"
+		self.freeze_sound = "sounds/freeze_sound.wav"
+		self.armageddon_sound = "sounds/armageddon_sound.wav"
+		self.weapon_change_sound = "sounds/weapon_change.wav"
+
+		# Громкость звуков игры
+		self.bg_volume = 0.3
+		self.bullet_volume = 0.4
+		self.alien_volume = 0.6
+		self.freeze_volume = 0.9
+		self.armageddon_volume = 0.9
+		self.weapon_volume = 0.8
 
 	def initialize_dynamic_settings(self):
 		"""Инициализирует настройки изменяющиеся в ходе игры"""

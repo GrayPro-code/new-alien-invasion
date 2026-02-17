@@ -19,8 +19,9 @@ class AlienInvasion:
     def __init__(self):
         """инициализирует игру и создает игровые ресурсы """
         pygame.init()
+        Sounds.sounds_init()
         # self.clock = pygame.time.Clock()
-        self.sounds = Sounds()
+        #self.sounds = Sounds()
         self.settings = Settings()
         self.screen = pygame.display.set_mode((self.settings.screen_width, self.settings.screen_height))
         self.settings.screen_width = self.screen.get_rect().width
@@ -37,16 +38,18 @@ class AlienInvasion:
         # Создание кнопки Play
         self.play_button = Button(self, "Play")
         # Создание музыки на заднем фоне.
-        self.sounds.bg_sound()
+        Sounds.play_music(self.settings.bg_music, self.settings.bg_volume, -1)
         self.switch = True
 
 
 
         # добавляю rocket
-        self.rocket_image = pygame.image.load("images/rocket.png")
+        self.rocket_image = pygame.image.load("images/rocket.png").convert_alpha()
+        self.rocket_image.set_alpha(255)
         self.rocket_rect = self.rocket_image.get_rect(center=(50, 650))
         # добавляем blaster
-        self.blaster_image = pygame.image.load("images/blaster.png")
+        self.blaster_image = pygame.image.load("images/blaster.png").convert_alpha()
+        self.blaster_image.set_alpha(100)
         self.blaster_rect = self.blaster_image.get_rect(center=(150, 650))
 
 
@@ -57,7 +60,7 @@ class AlienInvasion:
         """запуск основного цикла игры."""
         while True:
             self._check_events()
-            if self.stats.game_active:
+            if  self.stats.game_active:
                 self.ship.update()
                 self._update_bullets()
                 self._update_aliens()
@@ -77,6 +80,7 @@ class AlienInvasion:
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_pos = pygame.mouse.get_pos()
                 self._check_play_button(mouse_pos)
+
 
     def _check_play_button(self, mouse_pos):
         """Запускает новую игру при нажатии кнопки Play."""
@@ -112,19 +116,30 @@ class AlienInvasion:
 
 
         elif event.key == pygame.K_1:
-            self.sounds.weapon_change()
+            Sounds.play_sound(self.settings.weapon_change_sound, self.settings.weapon_volume)
             self.switch = True
             self.settings.bullet_height = 15
             self.settings.bullet_color = (255, 102, 0)
             self.settings.bullets_allowed = 3
+            self.rocket_image.set_alpha(255)
+            self.blaster_image.set_alpha(100)
+
 
 
         elif event.key == pygame.K_2:
-            self.sounds.weapon_change()
+            Sounds.play_sound(self.settings.weapon_change_sound, self.settings.weapon_volume)
             self.switch = False
             self.settings.bullet_height = 45
             self.settings.bullet_color = (0, 180, 232)
             self.settings.bullets_allowed = 1
+            self.rocket_image.set_alpha(100)
+            self.blaster_image.set_alpha(255)
+            self.stats.ships_left += 1
+            self.sb.prep_ship()
+
+        # pause
+        elif event.key == pygame.K_RETURN:
+            self.stats.game_active = not self.stats.game_active
 
 
 
@@ -144,7 +159,7 @@ class AlienInvasion:
         if len(self.bullets) < self.settings.bullets_allowed:
             new_bullet = Bullet(self)
             self.bullets.add(new_bullet)
-            self.sounds.bullet_sound()
+            Sounds.play_sound(self.settings.bullet_sound, self.settings.bullet_volume)
 
     def _update_bullets(self):
         """Обновляет позиции снарядов и уничтожает старые снаряды"""
@@ -187,7 +202,7 @@ class AlienInvasion:
             if 3 == self.random_integer:
                 self.freeze = Animation(600, 350, name_dir="freeze", name_files="freeze")
                 self.all_sprites.add(self.freeze)
-                self.sounds.freeze_sound()
+                Sounds.play_sound(self.settings.freeze_sound, self.settings.freeze_volume)
                 self.settings.alien_speed_factor /= self.settings.speedup_scale
                 self.settings.ship_speed_factor  /= self.settings.speedup_scale
                 self.settings.bullet_speed_factor /= self.settings.speedup_scale
@@ -198,14 +213,14 @@ class AlienInvasion:
             elif 2 == self.random_integer:
                 self.armageddon = Animation(600, 250, name_dir="armageddon", name_files="armageddon")
                 self.all_sprites.add(self.armageddon)
-                self.sounds.armageddon_sound()
+                Sounds.play_sound(self.settings.armageddon_sound, self.settings.armageddon_volume)
                 self.stats.score += self.settings.alien_points * len(self.aliens)
                 self.aliens.empty()
                 
 
             self.sb.prep_score()
             self.sb.check_high_score()
-            self.sounds.alien_sound()
+            Sounds.play_sound(self.settings.alien_sound, self.settings.alien_volume)
         if not self.aliens:
             # уничтожение существующих снарядов повышение скорости и создание нового флота.
             self.bullets.empty()
