@@ -21,7 +21,6 @@ class AlienInvasion:
         pygame.init()
         Sounds.sounds_init()
         # self.clock = pygame.time.Clock()
-        #self.sounds = Sounds()
         self.settings = Settings()
         self.screen = pygame.display.set_mode((self.settings.screen_width, self.settings.screen_height))
         self.settings.screen_width = self.screen.get_rect().width
@@ -134,8 +133,7 @@ class AlienInvasion:
             self.settings.bullets_allowed = 1
             self.rocket_image.set_alpha(100)
             self.blaster_image.set_alpha(255)
-            self.stats.ships_left += 1
-            self.sb.prep_ship()
+
 
         # pause
         elif event.key == pygame.K_RETURN:
@@ -229,6 +227,10 @@ class AlienInvasion:
             # Увеличение уровня.
             self.stats.level += 1
             self.sb.prep_level()
+            # При прохождении 10 уровней добавляет жизнь
+            if self.stats.level % 10 == 0:
+                self.stats.ships_left += 1
+                self.sb.prep_ship()
 
     def _update_aliens(self):
         """Обновляет позиции всех пришельцев во флоте"""

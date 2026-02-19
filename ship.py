@@ -2,7 +2,6 @@ import pygame
 from pygame.sprite import Sprite
 
 
-
 class Ship(Sprite):
     """Класс для управления кораблем."""
 

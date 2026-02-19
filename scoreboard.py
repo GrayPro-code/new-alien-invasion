@@ -3,7 +3,7 @@ from pygame.sprite import Group
 from ship import Ship
 
 
-class Scoreboard():
+class Scoreboard:
 	"""Класс для вывода игровой информации."""
 
 	def __init__(self, ai_game):
@@ -17,7 +17,7 @@ class Scoreboard():
 		# Настройки шрифта для вывода счета.
 		self.text_color = (255, 255, 255)
 		self.font = pygame.font.SysFont(None, 48)
-		#Подготовка  изображений счетов.
+		#Подготовка изображений счетов.
 		self.prep_score()
 		self.prep_high_score()
 		self.prep_level()
@@ -53,7 +53,7 @@ class Scoreboard():
 		self.ships.draw(self.screen)
 
 	def check_high_score(self):
-		""" Проверяет появился ли новый рекорд"""
+		""" Проверяет появиться ли новый рекорд"""
 		if self.stats.score > self.stats.high_score:
 			self.stats.high_score = self.stats.score
 			self.prep_high_score()

@@ -19,7 +19,8 @@ class Animation(Sprite):
         self.last_update = pygame.time.get_ticks()
 
 
-    def count_images_in_folder(self, folder_path):
+    @staticmethod
+    def count_images_in_folder(folder_path):
         """
         Считает количество файлов-изображений в указанной папке.
         Поддерживаемые форматы: jpg, jpeg, png, gif, bmp, tiff, webp.

@@ -21,7 +21,8 @@ class GameStats:
 		with open("high_score.txt", "w") as f:
 			f.write(str(self.high_score))
 
-	def read_high_score(self):
+	@staticmethod
+	def read_high_score():
 		""" Загружает из файла рекорд игры"""
 		with open("high_score.txt") as f:
 			return int(f.read())
