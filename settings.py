@@ -7,11 +7,36 @@ class Settings:
 		"""Инициализирует статические настройки игры."""
 
 		# Параметры экрана
+		pygame.init()
 		self.screen_width = 1200
 		self.screen_height = 700
 
 		# Назначение цвета фона.
 		self.bg_image = pygame.image.load("images/bg.jpg")
+
+		# параметры снарядов
+		self.bullet_speed = 0.5
+		self.bullet_width = 3
+		self.bullet_blaster_height = 45
+		self.bullet_height = 15
+		self.bullet_color = (255, 102, 0)
+		self.bullet_blaster_color = (0, 180, 232)
+		self.bullets_allowed = 3
+		self.bullet_blaster_allowed = 1
+
+
+		# Загрузка картинок меню оружия
+
+		self.rocket_image = "images/rocket.png"
+		self.blaster_image = "images/blaster.png"
+		self.default_transparency = 255
+		self.weapon_transparency = 100
+
+		self.rocket_position = (50, 650)
+		self.blaster_position = (150, 650)
+
+		self.rocket_parameters = [self.bullet_height, self.bullet_color, self.bullets_allowed]
+		self.blaster_parameters = [self.bullet_blaster_height, self.bullet_blaster_color, self.bullet_blaster_allowed]
 
 		# Цвет фона счета.
 		self.bg_color = (112, 146, 190, 40)    #(135, 206, 250)
@@ -29,12 +54,7 @@ class Settings:
 		self.score_scale= 1.3
 		self.initialize_dynamic_settings()
 
-		# параметры снаряда
-		self.bullet_speed = 0.5
-		self.bullet_width = 3
-		self.bullet_height = 15
-		self.bullet_color = (255, 102, 0) # (0, 0, 255) 
-		self.bullets_allowed = 3
+
 
 		# Расположение звуков игры
 		self.bg_music = "sounds/bg_sound.mp3"

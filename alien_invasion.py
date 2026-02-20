@@ -1,6 +1,7 @@
 import sys
 from time import sleep
 import pygame
+from weapon import Weapon
 from game_sounds import Sounds
 from settings import Settings
 from game_stats import GameStats
@@ -42,14 +43,11 @@ class AlienInvasion:
 
 
 
+
         # добавляю rocket
-        self.rocket_image = pygame.image.load("images/rocket.png").convert_alpha()
-        self.rocket_image.set_alpha(255)
-        self.rocket_rect = self.rocket_image.get_rect(center=(50, 650))
+        self.rocket = Weapon(self.settings.rocket_image, self.settings.default_transparency, self.settings.rocket_position)
         # добавляем blaster
-        self.blaster_image = pygame.image.load("images/blaster.png").convert_alpha()
-        self.blaster_image.set_alpha(100)
-        self.blaster_rect = self.blaster_image.get_rect(center=(150, 650))
+        self.blaster = Weapon(self.settings.blaster_image, self.settings.weapon_transparency, self.settings.blaster_position)
 
 
 
@@ -117,22 +115,18 @@ class AlienInvasion:
         elif event.key == pygame.K_1:
             Sounds.play_sound(self.settings.weapon_change_sound, self.settings.weapon_volume)
             self.switch = True
-            self.settings.bullet_height = 15
-            self.settings.bullet_color = (255, 102, 0)
-            self.settings.bullets_allowed = 3
-            self.rocket_image.set_alpha(255)
-            self.blaster_image.set_alpha(100)
-
+            Weapon.active(ai, self.settings.rocket_parameters)
+            self.blaster = Weapon(self.settings.blaster_image, self.settings.weapon_transparency,
+                                  self.settings.blaster_position)
 
 
         elif event.key == pygame.K_2:
             Sounds.play_sound(self.settings.weapon_change_sound, self.settings.weapon_volume)
             self.switch = False
-            self.settings.bullet_height = 45
-            self.settings.bullet_color = (0, 180, 232)
-            self.settings.bullets_allowed = 1
-            self.rocket_image.set_alpha(100)
-            self.blaster_image.set_alpha(255)
+            Weapon.active(ai, self.settings.blaster_parameters)
+            self.blaster = Weapon(self.settings.blaster_image, self.settings.default_transparency,
+                                  self.settings.blaster_position)
+
 
 
         # pause
@@ -188,14 +182,6 @@ class AlienInvasion:
                 self.explosion = Animation(alien.rect.x, alien.rect.y, name_dir="explosion", name_files="explosion")
                 self.all_sprites.add(self.explosion)
 
-
-            #if 5 == self.random_integer and self.settings.bullets_allowed != 3 and self.switch == True:
-            #    self.boom = Animation(600, 350, name_dir="boom", name_files="boom")
-            #    self.all_sprites.add(self.boom)
-            #    self.sounds.triple_shot_sound()
-            #    self.settings.bullets_allowed = 3
-
-               
 
             if 3 == self.random_integer:
                 self.freeze = Animation(600, 350, name_dir="freeze", name_files="freeze")
@@ -315,8 +301,8 @@ class AlienInvasion:
     def _update_screen(self):
         """Обновляет изображение на экране и отображает новый экран."""
         self.screen.blit(self.settings.bg_image, (0, 0))
-        self.screen.blit(self.rocket_image, self.rocket_rect)
-        self.screen.blit(self.blaster_image, self.blaster_rect)
+        self.screen.blit(self.rocket.weapon_image, self.rocket.weapon_rect)
+        self.screen.blit(self.blaster.weapon_image, self.blaster.weapon_rect)
         self.ship.blitme()
         for bullet in self.bullets.sprites():
             bullet.draw_bullet()
