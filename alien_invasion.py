@@ -115,17 +115,17 @@ class AlienInvasion:
         elif event.key == pygame.K_1:
             Sounds.play_sound(self.settings.weapon_change_sound, self.settings.weapon_volume)
             self.switch = True
-            Weapon.active(ai, self.settings.rocket_parameters)
-            self.blaster = Weapon(self.settings.blaster_image, self.settings.weapon_transparency,
-                                  self.settings.blaster_position)
+            Weapon.change_bullet(ai, self.settings.rocket_parameters)
+            self.rocket.weapon_image.set_alpha(self.settings.default_transparency)
+            self.blaster.weapon_image.set_alpha(self.settings.weapon_transparency)
 
 
         elif event.key == pygame.K_2:
             Sounds.play_sound(self.settings.weapon_change_sound, self.settings.weapon_volume)
             self.switch = False
-            Weapon.active(ai, self.settings.blaster_parameters)
-            self.blaster = Weapon(self.settings.blaster_image, self.settings.default_transparency,
-                                  self.settings.blaster_position)
+            Weapon.change_bullet(ai, self.settings.blaster_parameters)
+            self.blaster.weapon_image.set_alpha(self.settings.default_transparency)
+            self.rocket.weapon_image.set_alpha(self.settings.weapon_transparency)
 
 
 
@@ -179,13 +179,13 @@ class AlienInvasion:
 
             # получаем координаты сбитых пришельцев
             for alien in aliens:
-                self.explosion = Animation(alien.rect.x, alien.rect.y, name_dir="explosion", name_files="explosion")
-                self.all_sprites.add(self.explosion)
+                explosion = Animation(alien.rect.x, alien.rect.y, name_dir="explosion", name_files="explosion")
+                self.all_sprites.add(explosion)
 
 
             if 3 == self.random_integer:
-                self.freeze = Animation(600, 350, name_dir="freeze", name_files="freeze")
-                self.all_sprites.add(self.freeze)
+                freeze = Animation(600, 350, name_dir="freeze", name_files="freeze")
+                self.all_sprites.add(freeze)
                 Sounds.play_sound(self.settings.freeze_sound, self.settings.freeze_volume)
                 self.settings.alien_speed_factor /= self.settings.speedup_scale
                 self.settings.ship_speed_factor  /= self.settings.speedup_scale
@@ -195,8 +195,8 @@ class AlienInvasion:
 
                 # ARMAGEDDON
             elif 2 == self.random_integer:
-                self.armageddon = Animation(600, 250, name_dir="armageddon", name_files="armageddon")
-                self.all_sprites.add(self.armageddon)
+                armageddon = Animation(600, 250, name_dir="armageddon", name_files="armageddon")
+                self.all_sprites.add(armageddon)
                 Sounds.play_sound(self.settings.armageddon_sound, self.settings.armageddon_volume)
                 self.stats.score += self.settings.alien_points * len(self.aliens)
                 self.aliens.empty()
