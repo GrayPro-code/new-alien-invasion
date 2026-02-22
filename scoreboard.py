@@ -37,7 +37,7 @@ class Scoreboard:
 	def prep_high_score(self):
 		""" Преобразует текущий рекорд в графическое изображение."""
 		high_score = round(self.stats.high_score, -1)
-		high_score_str = "{:,}".format(high_score)
+		high_score_str = "{} {:,}".format(self.stats.name, high_score)
 		self.high_score_image = self.font.render(high_score_str, True, self.text_color, self.settings.bg_color)
 
 		# Рекорд выравнивается по центру верхней стороны.
@@ -56,6 +56,9 @@ class Scoreboard:
 		""" Проверяет появиться ли новый рекорд"""
 		if self.stats.score > self.stats.high_score:
 			self.stats.high_score = self.stats.score
+
+			# вписываем имя игрока в рекорд
+			self.stats.name = "DISHA"
 			self.prep_high_score()
 
 	def prep_level(self):

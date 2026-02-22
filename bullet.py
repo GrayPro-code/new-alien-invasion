@@ -17,10 +17,10 @@ class Bullet(Sprite):
 		# Позиция снаряда храниться в вещественном формате
 		self.y = self.rect.y
 
-	def update(self):
+	def update(self, ai_game):
 		"""Перемещает снаряд вверх по экрану"""
 		# Обновление позиции снаряда в вещественном формате
-		self.y -= self.settings.bullet_speed_factor
+		self.y -= self.settings.bullet_speed_factor * ai_game.dt
 		# Обновление позиции прямоугольника
 		self.rect.y = self.y
 

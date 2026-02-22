@@ -25,13 +25,13 @@ class Ship(Sprite):
         self.moving_right = False
         self.moving_left = False
 
-    def update(self):
+    def update(self, ai_game):
         """Обновляет позицию корабля с учетом флага."""
         # Обновляется атрибут х,  не  rect.
         if self.moving_right and self.rect.right < self.screen_rect.right:
-            self.x += self.settings.ship_speed_factor
+            self.x += self.settings.ship_speed_factor * ai_game.dt
         if self.moving_left and self.rect.left > 0:
-            self.x -= self.settings.ship_speed_factor
+            self.x -= self.settings.ship_speed_factor * ai_game.dt
 
         # Обновление атрибута rect на основании self.x
         self.rect.x = self.x

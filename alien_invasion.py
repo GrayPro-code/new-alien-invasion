@@ -21,7 +21,7 @@ class AlienInvasion:
         """инициализирует игру и создает игровые ресурсы """
         pygame.init()
         Sounds.sounds_init()
-        # self.clock = pygame.time.Clock()
+        self.clock = pygame.time.Clock()
         self.settings = Settings()
         self.screen = pygame.display.set_mode((self.settings.screen_width, self.settings.screen_height))
         self.settings.screen_width = self.screen.get_rect().width
@@ -36,7 +36,7 @@ class AlienInvasion:
         self.all_sprites = pygame.sprite.Group()
         self._create_fleet()
         # Создание кнопки Play
-        self.play_button = Button(self, "Play")
+        self.play_button = Button(self, "PLAY")
         # Создание музыки на заднем фоне.
         Sounds.play_music(self.settings.bg_music, self.settings.bg_volume, -1)
         self.switch = True
@@ -51,6 +51,7 @@ class AlienInvasion:
 
 
 
+
         
 
     def run_game(self):
@@ -58,7 +59,8 @@ class AlienInvasion:
         while True:
             self._check_events()
             if  self.stats.game_active:
-                self.ship.update()
+                self.dt = self.clock.tick(400) / 1.2
+                self.ship.update(self)
                 self._update_bullets()
                 self._update_aliens()
             self._update_screen()
@@ -132,6 +134,7 @@ class AlienInvasion:
         # pause
         elif event.key == pygame.K_RETURN:
             self.stats.game_active = not self.stats.game_active
+            self.play_button = Button(self, "PAUSE")
 
 
 
@@ -158,7 +161,7 @@ class AlienInvasion:
         # Обновление позиции снарядов
         # проверка попаданий в пришельца
         # при обнаружении попаданий удалить снаряд и пришельца
-        self.bullets.update()     
+        self.bullets.update(self)
         # удаление снарядов вышедших за край экрана
         for bullet in self.bullets.copy():
             if bullet.rect.bottom <= 0:
@@ -245,6 +248,7 @@ class AlienInvasion:
             sleep(0.5)
         else:
             self.stats.game_active = False
+            self.play_button = Button(self, "PLAY")
             pygame.mouse.set_visible(True)
 
     def _check_aliens_bottom(self):
@@ -315,9 +319,7 @@ class AlienInvasion:
         if not self.stats.game_active:
             self.play_button.draw_button()
         pygame.display.flip()
-        
-        # self.clock.tick(3000)
-        
+
 
 
 if __name__ == "__main__":

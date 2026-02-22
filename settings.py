@@ -1,5 +1,6 @@
 import pygame
 
+
 class Settings:
 	"""Класс для хранения всех настроек игры Alien Invasion."""
 
@@ -7,7 +8,6 @@ class Settings:
 		"""Инициализирует статические настройки игры."""
 
 		# Параметры экрана
-		pygame.init()
 		self.screen_width = 1200
 		self.screen_height = 700
 
@@ -76,7 +76,7 @@ class Settings:
 		"""Инициализирует настройки изменяющиеся в ходе игры"""
 		self.ship_speed_factor = 0.7
 		self.bullet_speed_factor = 0.5
-		self.alien_speed_factor = 0.1
+		self.alien_speed_factor = 0.3
 		# fleet_direction = 1 обозначает движение вправо; а - 1 - влево
 		self.fleet_direction = 1
 		# Подсчет очков.
