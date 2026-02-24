@@ -12,6 +12,8 @@ from bullet import Bullet
 from alien import Alien
 from animation import Animation
 from random import randint
+from sparkle import Sparkle
+
 
 
 class AlienInvasion:
@@ -39,6 +41,8 @@ class AlienInvasion:
         self.play_button = Button(self, "PLAY")
         # Создание музыки на заднем фоне.
         Sounds.play_music(self.settings.bg_music, self.settings.bg_volume, -1)
+        # Создаём список блесток
+        self.sparkles = [Sparkle() for _ in range(50)]
         self.switch = True
 
 
@@ -59,6 +63,9 @@ class AlienInvasion:
         while True:
             self._check_events()
             if  self.stats.game_active:
+                # Обновляем блестки
+                for sparkle in self.sparkles:
+                    sparkle.update()
                 self.dt = self.clock.tick(400) / 1.2
                 self.ship.update(self)
                 self._update_bullets()
@@ -135,6 +142,7 @@ class AlienInvasion:
         elif event.key == pygame.K_RETURN:
             self.stats.game_active = not self.stats.game_active
             self.play_button = Button(self, "PAUSE")
+
 
 
 
@@ -315,6 +323,9 @@ class AlienInvasion:
         self.all_sprites.draw(self.screen)
         #Вывод информации о счете.
         self.sb.show_score()
+        # Рисуем блестки
+        for sparkle in self.sparkles:
+            sparkle.draw(self.screen)
         # Кнопка Play Отображается в том случае если игра не активна.
         if not self.stats.game_active:
             self.play_button.draw_button()
