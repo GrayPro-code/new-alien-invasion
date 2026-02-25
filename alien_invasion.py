@@ -1,4 +1,6 @@
 import sys
+import os
+from menu import Menu
 from time import sleep
 import pygame
 from weapon import Weapon
@@ -13,6 +15,9 @@ from alien import Alien
 from animation import Animation
 from random import randint
 from sparkle import Sparkle
+from text import TextFadeIn
+
+
 
 
 
@@ -21,6 +26,7 @@ class AlienInvasion:
 
     def __init__(self):
         """инициализирует игру и создает игровые ресурсы """
+        os.environ['SDL_VIDEO_WINDOW_POS'] = "120,50"
         pygame.init()
         Sounds.sounds_init()
         self.clock = pygame.time.Clock()
@@ -53,10 +59,6 @@ class AlienInvasion:
         # добавляем blaster
         self.blaster = Weapon(self.settings.blaster_image, self.settings.weapon_transparency, self.settings.blaster_position)
 
-
-
-
-        
 
     def run_game(self):
         """запуск основного цикла игры."""
@@ -124,7 +126,7 @@ class AlienInvasion:
         elif event.key == pygame.K_1:
             Sounds.play_sound(self.settings.weapon_change_sound, self.settings.weapon_volume)
             self.switch = True
-            Weapon.change_bullet(ai, self.settings.rocket_parameters)
+            Weapon.change_bullet(self, self.settings.rocket_parameters)
             self.rocket.weapon_image.set_alpha(self.settings.default_transparency)
             self.blaster.weapon_image.set_alpha(self.settings.weapon_transparency)
 
@@ -132,7 +134,7 @@ class AlienInvasion:
         elif event.key == pygame.K_2:
             Sounds.play_sound(self.settings.weapon_change_sound, self.settings.weapon_volume)
             self.switch = False
-            Weapon.change_bullet(ai, self.settings.blaster_parameters)
+            Weapon.change_bullet(self, self.settings.blaster_parameters)
             self.blaster.weapon_image.set_alpha(self.settings.default_transparency)
             self.rocket.weapon_image.set_alpha(self.settings.weapon_transparency)
 
@@ -142,11 +144,6 @@ class AlienInvasion:
         elif event.key == pygame.K_RETURN:
             self.stats.game_active = not self.stats.game_active
             self.play_button = Button(self, "PAUSE")
-
-
-
-
-
 
 
 
@@ -331,9 +328,65 @@ class AlienInvasion:
             self.play_button.draw_button()
         pygame.display.flip()
 
-
-
 if __name__ == "__main__":
-    # Создание экземпляра и запуск игры.
-    ai = AlienInvasion()
-    ai.run_game()
+    os.environ['SDL_VIDEO_WINDOW_POS'] = "450,50"
+    pygame.init()
+    clock = pygame.time.Clock()
+    screen = pygame.display.set_mode((500, 700))
+    pygame.display.set_caption("🫡🚀🛸-= ALIEN INVASION ARMAGEDDON =-🫡🚀🛸")
+    background = pygame.image.load("images/menu.jpg")
+    background = pygame.transform.scale(background, (500, 700))
+
+    # Шрифт текста названия игры
+    font_text = pygame.font.Font(None, 72)  # None = стандартный шрифт
+
+    # Создаём объект текста
+    fade_text = TextFadeIn("ALIEN INVASION", font_text, (255, 255, 255), (50, 510), speed=1)
+    fade_text_2 = TextFadeIn("ARMAGEDDON", font_text, (255, 255, 255), (70, 580), speed=0.3)
+
+        # Функции для кнопок
+    def start_game():
+        pygame.quit()
+        ai = AlienInvasion()
+        ai.run_game()
+
+    def menu_settings():
+        print("Открытие настроек...")
+
+    def quit_game():
+        pygame.quit()
+        sys.exit()
+
+    buttons = [
+        Menu("новая игра", 500 // 2 - 100, 290, 200, 50, start_game),
+        Menu("настройки", 500 // 2 - 100, 360, 200, 50, menu_settings),
+        Menu("выход", 500 // 2 - 100, 430, 200, 50, quit_game)
+        ]
+
+        # Создание экземпляра и запуск игры.
+
+    # Обновляем состояние текста
+
+    while True:
+        fade_text.update()
+        fade_text_2.update()
+        for event in pygame.event.get():
+
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            for btn in buttons:
+                btn.check_click(event)
+
+            # Отрисовка
+
+        screen.blit(background, (0, 0))
+        fade_text.draw(screen)
+        fade_text_2.draw(screen)
+        for btn in buttons:
+            btn.draw(screen)
+        pygame.display.flip()
+        clock.tick(60)
+
+    #ai = AlienInvasion()
+    #ai.run_game()
