@@ -1,38 +1,104 @@
-import pygame
-import sys
 import os
+import sys
+import pygame
+from text_fade_in import TextFadeIn
+from name_input_screen import NameInputScreen
+from alien_invasion import AlienInvasion
+from settings import Settings
+from weapon import Weapon as DrawImage
 
 
-# Инициализация Pygame
-# os.environ['SDL_VIDEO_WINDOW_POS'] = "100,50"
-#pygame.init()
-#
-## Размер окна
-#
-#screen = pygame.display.set_mode((500, 700))
-#pygame.display.set_caption("Alien Invasion ARMAGEDDON")
-#
-## Загрузка фонового изображения
-#try:
-#    background = pygame.image.load("images/menu.jpg")  # замените на свой файл
-#    background = pygame.transform.scale(background, (500, 700))
-#except pygame.error:
-#    print("Ошибка: не удалось загрузить background.jpg")
-#    pygame.quit()
-#    sys.exit()
-#
-## Цвета
-#WHITE = (255, 255, 255)
-#GRAY = (84, 166, 190)
-#DARK_GRAY = (199, 243, 254)
-#BLACK = (245, 214, 157)
-#BORDER_COLOR = (245, 214, 157)
-#
-## Шрифт
-#font = pygame.font.SysFont("Arial", 36)
+class MainMenu:
+    def __init__(self):
+        os.environ['SDL_VIDEO_WINDOW_POS'] = "450,50"
+        pygame.init()
+        self.settings = Settings()
 
-# Класс Menu
-class Menu:
+
+        self.clock = pygame.time.Clock()
+        self.screen_width = 500
+        self.screen_height = 700
+
+        self.screen = pygame.display.set_mode((self.screen_width, self.screen_height))
+        pygame.display.set_caption("🫡🚀🛸-= ALIEN INVASION ARMAGEDDON =-🫡🚀🛸")
+
+        self.background = pygame.image.load("images/menu.jpg")
+        self.background = pygame.transform.scale(self.background, (self.screen_width, self.screen_height))
+
+        # Шрифт текста названия игры
+        font_text = pygame.font.Font(None, 72)
+
+        # Тексты с плавным появлением
+        self.fade_text = TextFadeIn("ALIEN INVASION", font_text, (255, 255, 255), (50, 510), speed=1)
+        self.fade_text_2 = TextFadeIn("ARMAGEDDON", font_text, (255, 255, 255), (70, 580), speed=0.3)
+
+        # Кнопки
+        self.buttons = [
+            ButtonMenu("новая игра", self.screen_width // 2 - 100, 290, 200, 50, start_game),
+            ButtonMenu("настройки", self.screen_width // 2 - 100, 360, 200, 50, menu_settings),
+            ButtonMenu("выход", self.screen_width // 2 - 100, 430, 200, 50, quit_game)
+            ]
+
+
+
+    # --------- Основной цикл меню ---------
+
+    def run(self):
+        while True:
+            # Обновляем состояние текста
+            self.fade_text.update()
+            self.fade_text_2.update()
+
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
+
+                for btn in self.buttons:
+                    btn.check_click(event)
+
+            # Отрисовка
+            self.screen.blit(self.background, (0, 0))
+            self.fade_text.draw(self.screen)
+            self.fade_text_2.draw(self.screen)
+
+            for btn in self.buttons:
+                btn.draw(self.screen)
+
+            pygame.display.flip()
+            self.clock.tick(60)
+
+
+    def open_menu_settings(self):
+        while True:
+            # Обновляем состояние текста
+
+
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
+                btn = ButtonMenu("назад", self.screen_width // 2 - 100, 600, 200, 50, menu.run)
+                btn.check_click(event)
+
+            # Отрисовка
+            self.screen.blit(self.background, (0, 0))
+            # добавляю rocket
+            rocket = DrawImage(self.settings.rocket_image, self.settings.default_transparency,
+                                 self.settings.rocket_position)
+            # добавляем blaster
+            blaster = DrawImage(self.settings.blaster_image, self.settings.weapon_transparency,
+                                  self.settings.blaster_position)
+
+            self.screen.blit(rocket.image, rocket.rect)
+            self.screen.blit(blaster.image, blaster.rect)
+            ButtonMenu("назад", self.screen_width // 2 - 100, 600, 200, 50, menu.run).draw(self.screen)
+
+            pygame.display.flip()
+            self.clock.tick(60)
+
+
+class ButtonMenu:
     def __init__(self, text, x, y, width, height, callback):
         self.font = pygame.font.SysFont("Arial", 36)
         self.text = text
@@ -42,9 +108,6 @@ class Menu:
         self.hover_color = (46, 64, 79)#(199, 243, 254)
         self.border_radius = 7  # закругление углов
         self.border_width = 1    # толщина рамки
-
-    #def run_menu(self):
-
 
 
     def draw(self, surface):
@@ -68,38 +131,21 @@ class Menu:
             if self.rect.collidepoint(event.pos):
                 self.callback()
 
-# Функции для кнопок
-#   def start_game(self):
-#       ai = AlienInvasion()
-#       ai.run_game()
 
-#   def menu_settings(self):
-#       print("Открытие настроек...")
+  # --------- Методы-действия для кнопок ---------
+def start_game():
+    pygame.quit()
+    NameInputScreen().run()
+    pygame.quit()
+    AlienInvasion().run_game()
 
-#   def quit_game(self):
-#       pygame.quit()
-#       sys.exit()
+def menu_settings():
+    menu.open_menu_settings()
 
-# Создание кнопок
-#buttons = [
-#    Menu("новая игра", 500//2 - 100, 290, 200, 50, Menu.start_game),
-#    Menu("Настройки", 500//2 - 100, 360, 200, 50, Menu.menu_settings),
-#    Menu("Выход", 500//2 - 100, 430, 200, 50, Menu.quit_game)
-#]
+def quit_game():
+    pygame.quit()
+    sys.exit()
 
-# Главный цикл
-#clock = pygame.time.Clock()
-#while True:
-#    for event in pygame.event.get():
-#   #     if event.type == pygame.QUIT:
-#            Menu.quit_game()
-#        for btn in buttons:
-#            btn.check_click(event)
-#
-#    # Отрисовка
-#    screen.blit(background, (0, 0))
-#    for btn in buttons:
-#        btn.draw(screen)
-#
-#    pygame.display.flip()
-#    clock.tick(60)
+if __name__ == "__main__":
+    menu = MainMenu()
+    menu.run()

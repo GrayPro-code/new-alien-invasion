@@ -1,6 +1,5 @@
 import sys
 import os
-from menu import Menu
 from time import sleep
 import pygame
 from weapon import Weapon
@@ -15,7 +14,6 @@ from alien import Alien
 from animation import Animation
 from random import randint
 from sparkle import Sparkle
-from text import TextFadeIn
 
 
 
@@ -127,16 +125,16 @@ class AlienInvasion:
             Sounds.play_sound(self.settings.weapon_change_sound, self.settings.weapon_volume)
             self.switch = True
             Weapon.change_bullet(self, self.settings.rocket_parameters)
-            self.rocket.weapon_image.set_alpha(self.settings.default_transparency)
-            self.blaster.weapon_image.set_alpha(self.settings.weapon_transparency)
+            self.rocket.image.set_alpha(self.settings.default_transparency)
+            self.blaster.image.set_alpha(self.settings.weapon_transparency)
 
 
         elif event.key == pygame.K_2:
             Sounds.play_sound(self.settings.weapon_change_sound, self.settings.weapon_volume)
             self.switch = False
             Weapon.change_bullet(self, self.settings.blaster_parameters)
-            self.blaster.weapon_image.set_alpha(self.settings.default_transparency)
-            self.rocket.weapon_image.set_alpha(self.settings.weapon_transparency)
+            self.blaster.image.set_alpha(self.settings.default_transparency)
+            self.rocket.image.set_alpha(self.settings.weapon_transparency)
 
 
 
@@ -211,7 +209,7 @@ class AlienInvasion:
                 
 
             self.sb.prep_score()
-            self.sb.check_high_score()
+            self.sb.check_high_score(self)
             Sounds.play_sound(self.settings.alien_sound, self.settings.alien_volume)
         if not self.aliens:
             # уничтожение существующих снарядов повышение скорости и создание нового флота.
@@ -310,8 +308,8 @@ class AlienInvasion:
     def _update_screen(self):
         """Обновляет изображение на экране и отображает новый экран."""
         self.screen.blit(self.settings.bg_image, (0, 0))
-        self.screen.blit(self.rocket.weapon_image, self.rocket.weapon_rect)
-        self.screen.blit(self.blaster.weapon_image, self.blaster.weapon_rect)
+        self.screen.blit(self.rocket.image, self.rocket.rect)
+        self.screen.blit(self.blaster.image, self.blaster.rect)
         self.ship.blitme()
         for bullet in self.bullets.sprites():
             bullet.draw_bullet()
@@ -328,65 +326,65 @@ class AlienInvasion:
             self.play_button.draw_button()
         pygame.display.flip()
 
-if __name__ == "__main__":
-    os.environ['SDL_VIDEO_WINDOW_POS'] = "450,50"
-    pygame.init()
-    clock = pygame.time.Clock()
-    screen = pygame.display.set_mode((500, 700))
-    pygame.display.set_caption("🫡🚀🛸-= ALIEN INVASION ARMAGEDDON =-🫡🚀🛸")
-    background = pygame.image.load("images/menu.jpg")
-    background = pygame.transform.scale(background, (500, 700))
+#if __name__ == "__main__":
+#    os.environ['SDL_VIDEO_WINDOW_POS'] = "450,50"
+#    pygame.init()
+#    clock = pygame.time.Clock()
+#    screen = pygame.display.set_mode((500, 700))
+#    pygame.display.set_caption("🫡🚀🛸-= ALIEN INVASION ARMAGEDDON =-🫡🚀🛸")
+#    background = pygame.image.load("images/menu.jpg")
+#    background = pygame.transform.scale(background, (500, 700))
+#
+#    # Шрифт текста названия игры
+#    font_text = pygame.font.Font(None, 72)  # None = стандартный шрифт
+#
+#    # Создаём объект текста
+#    fade_text = TextFadeIn("ALIEN INVASION", font_text, (255, 255, 255), (50, 510), speed=1)
+#    fade_text_2 = TextFadeIn("ARMAGEDDON", font_text, (255, 255, 255), (70, 580), speed=0.3)
+#
+#        # Функции для кнопок
+#    def start_game():
+#        pygame.quit()
+#        NameInputScreen().run()
+#        pygame.quit()
+#        AlienInvasion().run_game()
+#
+#
+#    def menu_settings():
+#        print("Открытие настроек...")
+#
+#    def quit_game():
+#        pygame.quit()
+#        sys.exit()
+#
+#    buttons = [
+#        Menu("новая игра", 500 // 2 - 100, 290, 200, 50, start_game),
+#        Menu("настройки", 500 // 2 - 100, 360, 200, 50, menu_settings),
+#        Menu("выход", 500 // 2 - 100, 430, 200, 50, quit_game)
+#        ]
+#
+#        # Создание экземпляра и запуск игры.
+#
+#    # Обновляем состояние текста
+#
+#    while True:
+#        fade_text.update()
+#        fade_text_2.update()
+#        for event in pygame.event.get():
+#
+#            if event.type == pygame.QUIT:
+#                pygame.quit()
+#                sys.exit()
+#            for btn in buttons:
+#                btn.check_click(event)
+#
+#            # Отрисовка
+#
+#        screen.blit(background, (0, 0))
+#        fade_text.draw(screen)
+#        fade_text_2.draw(screen)
+#        for btn in buttons:
+#            btn.draw(screen)
+#        pygame.display.flip()
+#        clock.tick(60)
 
-    # Шрифт текста названия игры
-    font_text = pygame.font.Font(None, 72)  # None = стандартный шрифт
-
-    # Создаём объект текста
-    fade_text = TextFadeIn("ALIEN INVASION", font_text, (255, 255, 255), (50, 510), speed=1)
-    fade_text_2 = TextFadeIn("ARMAGEDDON", font_text, (255, 255, 255), (70, 580), speed=0.3)
-
-        # Функции для кнопок
-    def start_game():
-        pygame.quit()
-        ai = AlienInvasion()
-        ai.run_game()
-
-    def menu_settings():
-        print("Открытие настроек...")
-
-    def quit_game():
-        pygame.quit()
-        sys.exit()
-
-    buttons = [
-        Menu("новая игра", 500 // 2 - 100, 290, 200, 50, start_game),
-        Menu("настройки", 500 // 2 - 100, 360, 200, 50, menu_settings),
-        Menu("выход", 500 // 2 - 100, 430, 200, 50, quit_game)
-        ]
-
-        # Создание экземпляра и запуск игры.
-
-    # Обновляем состояние текста
-
-    while True:
-        fade_text.update()
-        fade_text_2.update()
-        for event in pygame.event.get():
-
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
-            for btn in buttons:
-                btn.check_click(event)
-
-            # Отрисовка
-
-        screen.blit(background, (0, 0))
-        fade_text.draw(screen)
-        fade_text_2.draw(screen)
-        for btn in buttons:
-            btn.draw(screen)
-        pygame.display.flip()
-        clock.tick(60)
-
-    #ai = AlienInvasion()
-    #ai.run_game()

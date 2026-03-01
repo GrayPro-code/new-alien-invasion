@@ -8,9 +8,9 @@ class Weapon:
     """
     def __init__(self, image, transparency, position):
         """ Загружаем изображение, устанавливаем его прозрачность и расположение"""
-        self.weapon_image = pygame.image.load(image).convert_alpha()
-        self.weapon_image.set_alpha(transparency)
-        self.weapon_rect = self.weapon_image.get_rect(center=position)
+        self.image = pygame.image.load(image).convert_alpha()
+        self.image.set_alpha(transparency)
+        self.rect = self.image.get_rect(center=position)
 
 
     @staticmethod
