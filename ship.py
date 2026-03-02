@@ -13,7 +13,7 @@ class Ship(Sprite):
         self.screen_rect = ai_game.screen.get_rect()
 
         # Загружает изображение корабля и получает треугольник.
-        self.image = pygame.image.load("images/ship.bmp")
+        self.image = self.settings.ship_image
         self.rect = self.image.get_rect()
         # Каждый новый корабль появляется у нижнего края экрана.
         self.rect.midbottom = self.screen_rect.midbottom

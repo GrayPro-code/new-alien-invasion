@@ -31,7 +31,7 @@ class NameInputScreen:
         self.color = self.color_inactive
 
         # Кнопка OK
-        self.button_box = pygame.Rect(190, 400, 100, 50)
+        self.button_box = pygame.Rect(190, 400, 100, 40)
 
         # Состояния
         self.active = False

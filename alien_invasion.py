@@ -111,8 +111,10 @@ class AlienInvasion:
     def _check_keydown_events(self, event):
         """ Реагирует на нажатие клавиш"""
         if event.key == pygame.K_RIGHT:
+            self.ship.image = self.settings.right_ship_image
             self.ship.moving_right = True
         elif event.key == pygame.K_LEFT:
+            self.ship.image = self.settings.left_ship_image
             self.ship.moving_left = True
         elif event.key == pygame.K_q:
             self.stats.write_high_score()
@@ -147,6 +149,7 @@ class AlienInvasion:
 
     def _check_keyup_events(self, event):
         """Реагирует на отпускание клавиш"""
+        self.ship.image = self.settings.ship_image
         if event.key == pygame.K_RIGHT:
             self.ship.moving_right = False
         elif event.key == pygame.K_LEFT:
@@ -325,66 +328,3 @@ class AlienInvasion:
         if not self.stats.game_active:
             self.play_button.draw_button()
         pygame.display.flip()
-
-#if __name__ == "__main__":
-#    os.environ['SDL_VIDEO_WINDOW_POS'] = "450,50"
-#    pygame.init()
-#    clock = pygame.time.Clock()
-#    screen = pygame.display.set_mode((500, 700))
-#    pygame.display.set_caption("🫡🚀🛸-= ALIEN INVASION ARMAGEDDON =-🫡🚀🛸")
-#    background = pygame.image.load("images/menu.jpg")
-#    background = pygame.transform.scale(background, (500, 700))
-#
-#    # Шрифт текста названия игры
-#    font_text = pygame.font.Font(None, 72)  # None = стандартный шрифт
-#
-#    # Создаём объект текста
-#    fade_text = TextFadeIn("ALIEN INVASION", font_text, (255, 255, 255), (50, 510), speed=1)
-#    fade_text_2 = TextFadeIn("ARMAGEDDON", font_text, (255, 255, 255), (70, 580), speed=0.3)
-#
-#        # Функции для кнопок
-#    def start_game():
-#        pygame.quit()
-#        NameInputScreen().run()
-#        pygame.quit()
-#        AlienInvasion().run_game()
-#
-#
-#    def menu_settings():
-#        print("Открытие настроек...")
-#
-#    def quit_game():
-#        pygame.quit()
-#        sys.exit()
-#
-#    buttons = [
-#        Menu("новая игра", 500 // 2 - 100, 290, 200, 50, start_game),
-#        Menu("настройки", 500 // 2 - 100, 360, 200, 50, menu_settings),
-#        Menu("выход", 500 // 2 - 100, 430, 200, 50, quit_game)
-#        ]
-#
-#        # Создание экземпляра и запуск игры.
-#
-#    # Обновляем состояние текста
-#
-#    while True:
-#        fade_text.update()
-#        fade_text_2.update()
-#        for event in pygame.event.get():
-#
-#            if event.type == pygame.QUIT:
-#                pygame.quit()
-#                sys.exit()
-#            for btn in buttons:
-#                btn.check_click(event)
-#
-#            # Отрисовка
-#
-#        screen.blit(background, (0, 0))
-#        fade_text.draw(screen)
-#        fade_text_2.draw(screen)
-#        for btn in buttons:
-#            btn.draw(screen)
-#        pygame.display.flip()
-#        clock.tick(60)
-

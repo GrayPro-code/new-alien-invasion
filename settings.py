@@ -13,7 +13,10 @@ class Settings:
 
 		# Назначение цвета фона.
 		self.bg_image = pygame.image.load("images/bg.jpg")
-
+		# параметры корабля
+		self.ship_image = pygame.image.load("images/ship.bmp")
+		self.left_ship_image = pygame.image.load("images/left_ship.bmp")
+		self.right_ship_image = pygame.image.load("images/right_ship.bmp")
 		# параметры снарядов
 		self.bullet_speed = 0.5
 		self.bullet_width = 3
@@ -38,6 +41,13 @@ class Settings:
 		self.rocket_parameters = [self.bullet_height, self.bullet_color, self.bullets_allowed]
 		self.blaster_parameters = [self.bullet_blaster_height, self.bullet_blaster_color, self.bullet_blaster_allowed]
 
+		# загрузка картинок корабля в menu
+		self.blue_ship_image = "images/blue_ship.png"
+		self.red_ship_image = "images/red_ship.png"
+		self.default_transparency = 255
+		self.weapon_transparency = 100
+		self.blue_ship_position = (150, 370)
+		self.red_ship_position = (350, 370)
 		# Цвет фона счета.
 		self.bg_color = (112, 146, 190, 40)    #(135, 206, 250)
 
