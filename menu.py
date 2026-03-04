@@ -64,13 +64,9 @@ class MainMenu:
                     btn.check_click(event)
 
             # Отрисовка
-
-
-
             self.screen.blit(self.background, (0, 0))
             self.fade_text.draw(self.screen)
             self.fade_text_2.draw(self.screen)
-
             for btn in self.buttons_menu:
                 btn.draw(self.screen)
             # анимация взрыва
@@ -156,7 +152,7 @@ class ButtonMenu:
                 self.callback()
 
 
-  # --------- Методы-действия для кнопок ---------
+  # --------- действия для кнопок ---------
 def start_game():
     pygame.quit()
     NameInputScreen().run()
@@ -182,7 +178,6 @@ def red_ship_selection():
     settings = Settings()
     Sounds.play_sound(settings.weapon_change_sound)
     print("red_ship_selection")
-
 
 
 if __name__ == "__main__":

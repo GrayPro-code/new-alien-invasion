@@ -5,7 +5,7 @@ class TextFadeIn:
     def __init__(self, text, font, color, pos, speed=1):
         """
         text - строка текста
-        font - объект pygame.font.Font
+        font - объект pygame. font. Font
         color - цвет текста (R, G, B)
         pos - позиция (x, y)
         speed - скорость появления (1-10, больше = быстрее)

@@ -13,13 +13,6 @@ class Weapon:
         self.rect = self.image.get_rect(center=position)
 
 
-    @staticmethod
-    def change_bullet(ai_game, parameters):
-        """ меняет параметры снаряда"""
-        ai_game.settings.bullet_height = parameters[0]
-        ai_game.settings.bullet_color = parameters[1]
-        ai_game.settings.bullets_allowed = parameters[2]
-
 
 
 

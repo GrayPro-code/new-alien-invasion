@@ -16,9 +16,6 @@ from random import randint
 from sparkle import Sparkle
 
 
-
-
-
 class AlienInvasion:
     """класс для управления ресурсами и поведением игры"""
 
@@ -120,13 +117,16 @@ class AlienInvasion:
             self.stats.write_high_score()
             sys.exit()
         elif event.key == pygame.K_SPACE:
-            self._fire_bullet()
+            if self.switch:
+                self._fire_bullet(self.settings.bullet_rocket_image)
+            else:
+                self._fire_bullet(self.settings.bullet_blaster_image)
 
 
         elif event.key == pygame.K_1:
             Sounds.play_sound(self.settings.weapon_change_sound, self.settings.weapon_volume)
             self.switch = True
-            Weapon.change_bullet(self, self.settings.rocket_parameters)
+            self.settings.bullets_allowed = 3
             self.rocket.image.set_alpha(self.settings.default_transparency)
             self.blaster.image.set_alpha(self.settings.weapon_transparency)
 
@@ -134,17 +134,14 @@ class AlienInvasion:
         elif event.key == pygame.K_2:
             Sounds.play_sound(self.settings.weapon_change_sound, self.settings.weapon_volume)
             self.switch = False
-            Weapon.change_bullet(self, self.settings.blaster_parameters)
+            self.settings.bullets_allowed = 1
             self.blaster.image.set_alpha(self.settings.default_transparency)
             self.rocket.image.set_alpha(self.settings.weapon_transparency)
-
-
 
         # pause
         elif event.key == pygame.K_RETURN:
             self.stats.game_active = not self.stats.game_active
             self.play_button = Button(self, "PAUSE")
-
 
 
     def _check_keyup_events(self, event):
@@ -155,11 +152,13 @@ class AlienInvasion:
         elif event.key == pygame.K_LEFT:
             self.ship.moving_left = False
 
-    def _fire_bullet(self):
+
+    def _fire_bullet(self, image):
         """Создание нового снаряда и включение его в группу Bullets"""
         if len(self.bullets) < self.settings.bullets_allowed:
-            new_bullet = Bullet(self)
+            new_bullet = Bullet(self, image)
             self.bullets.add(new_bullet)
+            print(self.bullets)
             Sounds.play_sound(self.settings.bullet_sound, self.settings.bullet_volume)
 
     def _update_bullets(self):
@@ -314,8 +313,9 @@ class AlienInvasion:
         self.screen.blit(self.rocket.image, self.rocket.rect)
         self.screen.blit(self.blaster.image, self.blaster.rect)
         self.ship.blitme()
+
         for bullet in self.bullets.sprites():
-            bullet.draw_bullet()
+            bullet.blitme()
         self.aliens.draw(self.screen)
         self.all_sprites.update()
         self.all_sprites.draw(self.screen)

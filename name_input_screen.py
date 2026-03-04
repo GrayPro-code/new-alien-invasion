@@ -131,5 +131,3 @@ class NameInputScreen:
             self.draw()
             self.clock.tick(60)
 
-
-# Запуск

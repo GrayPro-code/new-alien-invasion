@@ -13,19 +13,17 @@ class Settings:
 
 		# Назначение цвета фона.
 		self.bg_image = pygame.image.load("images/bg.jpg")
+
 		# параметры корабля
 		self.ship_image = pygame.image.load("images/ship.bmp")
 		self.left_ship_image = pygame.image.load("images/left_ship.bmp")
 		self.right_ship_image = pygame.image.load("images/right_ship.bmp")
+
 		# параметры снарядов
+		self.bullet_rocket_image = pygame.image.load("images/rocket_bullet.png")
+		self.bullet_blaster_image = pygame.image.load("images/blaster_bullet.png")
 		self.bullet_speed = 0.5
-		self.bullet_width = 3
-		self.bullet_blaster_height = 45
-		self.bullet_height = 15
-		self.bullet_color = (255, 102, 0)
-		self.bullet_blaster_color = (0, 180, 232)
 		self.bullets_allowed = 3
-		self.bullet_blaster_allowed = 1
 
 
 		# Загрузка картинок меню оружия
@@ -34,12 +32,8 @@ class Settings:
 		self.blaster_image = "images/blaster.png"
 		self.default_transparency = 255
 		self.weapon_transparency = 100
-
 		self.rocket_position = (50, 650)
 		self.blaster_position = (150, 650)
-
-		self.rocket_parameters = [self.bullet_height, self.bullet_color, self.bullets_allowed]
-		self.blaster_parameters = [self.bullet_blaster_height, self.bullet_blaster_color, self.bullet_blaster_allowed]
 
 		# загрузка картинок корабля в menu
 		self.blue_ship_image = "images/blue_ship.png"
@@ -48,6 +42,7 @@ class Settings:
 		self.weapon_transparency = 100
 		self.blue_ship_position = (150, 370)
 		self.red_ship_position = (350, 370)
+
 		# Цвет фона счета.
 		self.bg_color = (112, 146, 190, 40)    #(135, 206, 250)
 
@@ -58,13 +53,13 @@ class Settings:
 		# Настройки пришельцев
 		self.alien_speed = 0.1
 		self.fleet_drop_speed = 50
+
 		# Темп ускорения игры.
 		self.speedup_scale = 1.1
+
 		# Темп роста стоимости пришельца
 		self.score_scale= 1.3
 		self.initialize_dynamic_settings()
-
-
 
 		# Расположение звуков игры
 		self.bg_music = "sounds/bg_sound.mp3"
