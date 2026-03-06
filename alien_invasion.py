@@ -26,7 +26,8 @@ class AlienInvasion:
         Sounds.sounds_init()
         self.clock = pygame.time.Clock()
         self.settings = Settings()
-        self.screen = pygame.display.set_mode((self.settings.screen_width, self.settings.screen_height))
+        self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+        #self.screen = pygame.display.set_mode((self.settings.screen_width, self.settings.screen_height))
         self.settings.screen_width = self.screen.get_rect().width
         self.settings.screen_height = self.screen.get_rect().height
         pygame.display.set_caption("Alien Invasion Armageddon")
@@ -50,9 +51,9 @@ class AlienInvasion:
 
 
         # добавляю rocket
-        self.rocket = Weapon(self.settings.rocket_image, self.settings.default_transparency, self.settings.rocket_position)
+        self.rocket = Weapon(self.settings.rocket_image, self.settings.default_transparency,(50, self.settings.screen_height - 50))
         # добавляем blaster
-        self.blaster = Weapon(self.settings.blaster_image, self.settings.weapon_transparency, self.settings.blaster_position)
+        self.blaster = Weapon(self.settings.blaster_image, self.settings.weapon_transparency,(150, self.settings.screen_height - 50))
 
 
     def run_game(self):
@@ -158,7 +159,6 @@ class AlienInvasion:
         if len(self.bullets) < self.settings.bullets_allowed:
             new_bullet = Bullet(self, image)
             self.bullets.add(new_bullet)
-            print(self.bullets)
             Sounds.play_sound(self.settings.bullet_sound, self.settings.bullet_volume)
 
     def _update_bullets(self):

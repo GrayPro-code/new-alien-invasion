@@ -12,7 +12,7 @@ from game_sounds import Sounds
 
 class MainMenu:
     def __init__(self):
-        os.environ['SDL_VIDEO_WINDOW_POS'] = "450,50"
+        os.environ['SDL_VIDEO_WINDOW_POS'] = "450, 50"
         pygame.init()
         self.settings = Settings()
         self.clock = pygame.time.Clock()

@@ -24,16 +24,12 @@ class Settings:
 		self.bullet_blaster_image = pygame.image.load("images/blaster_bullet.png")
 		self.bullet_speed = 0.5
 		self.bullets_allowed = 3
-
-
 		# Загрузка картинок меню оружия
 
 		self.rocket_image = "images/rocket.png"
 		self.blaster_image = "images/blaster.png"
 		self.default_transparency = 255
 		self.weapon_transparency = 100
-		self.rocket_position = (50, 650)
-		self.blaster_position = (150, 650)
 
 		# загрузка картинок корабля в menu
 		self.blue_ship_image = "images/blue_ship.png"
