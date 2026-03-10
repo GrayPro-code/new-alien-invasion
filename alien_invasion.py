@@ -51,9 +51,9 @@ class AlienInvasion:
 
 
         # добавляю rocket
-        self.rocket = Weapon(self.settings.rocket_image, self.settings.default_transparency,(50, self.settings.screen_height - 50))
+        self.rocket = Weapon(self.settings.rocket_image, self.settings.default_transparency, (50, self.settings.screen_height - 50))
         # добавляем blaster
-        self.blaster = Weapon(self.settings.blaster_image, self.settings.weapon_transparency,(150, self.settings.screen_height - 50))
+        self.blaster = Weapon(self.settings.blaster_image, self.settings.weapon_transparency, (150, self.settings.screen_height - 50))
 
 
     def run_game(self):
